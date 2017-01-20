@@ -1,0 +1,422 @@
+<?xml version="1.0"?>
+<!--
+  ~ /**
+  ~  * Magmodules.eu - http://www.magmodules.eu
+  ~  *
+  ~  * NOTICE OF LICENSE
+  ~  * This source file is subject to the Open Software License (OSL 3.0)
+  ~  * that is bundled with this package in the file LICENSE.txt.
+  ~  * It is also available through the world-wide-web at this URL:
+  ~  * http://opensource.org/licenses/osl-3.0.php
+  ~  * If you did not receive a copy of the license and are unable to
+  ~  * obtain it through the world-wide-web, please send an email
+  ~  * to info@magmodules.eu so we can send you a copy immediately.
+  ~  *
+  ~  * @category      Magmodules
+  ~  * @package       Magmodules_Fadello
+  ~  * @author        Magmodules <info@magmodules.eu>
+  ~  * @copyright     Copyright (c) 2017 (http://www.magmodules.eu)
+  ~  * @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  ~  */
+  -->
+<config>
+    <tabs>
+        <magmodules translate="label" module="fadello">
+            <label>Magmodules</label>
+            <sort_order>200</sort_order>
+        </magmodules>
+    </tabs>
+    <sections>
+        <shipping>
+            <groups>
+                <fadello translate="label" module="fadello">
+                    <label>Fadello - Same Day Delivery</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>103</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <about_heading translate="label">
+                            <label>About the Extension</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </about_heading>
+                        <about_note translate="label">
+                            <label><![CDATA[<p>This extension is developed by <a href="http://www.magmodules.eu/">Magmodules</a>. We are a Magento only E-commerce Agency located in the Netherlands.<br></p><p><strong>Read everything about the extension configuration in our <a href="https://www.magmodules.eu/help/fadello" target="_blank">Knowledgebase.</a></strong></p>]]></label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_note</frontend_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </about_note>
+
+                        <extension_heading translate="label">
+                            <label>General Settings</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </extension_heading>
+                        <version translate="label">
+                            <label>Extension Version</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_version</frontend_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </version>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enabled>
+                        <api_heading translate="label">
+                            <label>API Details</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_heading>
+                        <api_note translate="label">
+                            <label><![CDATA[<p>Enter the API details as supplied by Fadello.<br>Note that Fadello has seperate API keys depending on live and testing environment.</p><br/>]]></label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_note</frontend_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_note>
+                        <api_id translate="label">
+                            <label>API ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_id>
+                        <api_token translate="label">
+                            <label>API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_token>
+                        <shipping_heading translate="label">
+                            <label>Shipping Settings</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_heading>
+                        <shipping_note translate="label">
+                            <label><![CDATA[<p>Enter the Cut Off, Pickup and Delivery Time as supplies by Fadello.<br>Note that these settings needs to correspond with the settings in the Fadello dashboard.<br>See the tooltip for default values and representation.</p><br/>]]></label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_note</frontend_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_note>
+                        <cutoff_time translate="label">
+                            <label>Cut Off Time</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Data as supplied by Fadello, eg. 13:00</tooltip>
+                        </cutoff_time>
+                        <pickup_time translate="label">
+                            <label>Pickup Time</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Data as supplied by Fadello, eg. 13:00-16:00</tooltip>
+                        </pickup_time>
+                        <delivery_time translate="label">
+                            <label>Delivery Time</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Data as supplied by Fadello, eg. 18:00-22:30</tooltip>
+                        </delivery_time>
+                        <sender_heading translate="label">
+                            <label>Pickup / Label Information</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sender_heading>
+                        <sender_note translate="label">
+                            <label><![CDATA[<p>Enter the pickup information for the packages. This data will also be used on the shipping labels.</p><br/>]]></label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_note</frontend_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sender_note>
+                        <pu_name translate="label">
+                            <label>Company Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_name>
+                        <pu_street translate="label">
+                            <label>Street</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>43</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_street>
+                        <pu_homeno translate="label">
+                            <label>Home Number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>44</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_homeno>
+                        <pu_homeno_add translate="label">
+                            <label>Home Number Addition</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_homeno_add>
+                        <pu_postalcode translate="label">
+                            <label>Postalcode</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>46</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_postalcode>
+                        <pu_city translate="label">
+                            <label>City</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>47</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_city>
+                        <pu_country translate="label">
+                            <label>Country</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>48</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_country>
+                        <pu_phone translate="label">
+                            <label>Telephone</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>49</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_phone>
+                        <pu_email translate="label">
+                            <label>Email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pu_email>
+                        <general_heading translate="label">
+                            <label>General Settings</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </general_heading>
+                        <seperate_homenumber translate="label">
+                            <label>Home Number on second street</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>62</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Set this value to yes when using the second street as House number field</tooltip>
+                        </seperate_homenumber>
+                        <after_cutoff translate="label">
+                            <label>Allow Shipment after Cut Off Time</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>63</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Enable this function to create shipments for next day. Will be available one hour after Cut Off Time.</tooltip>
+                        </after_cutoff>
+                        <show_all_shipments translate="label">
+                            <label>Allow Shipment for non-Fadello orders</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>64</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <tooltip>Enable this function to create shipments in depend of the selected shipment carrier.</tooltip>
+                        </show_all_shipments>
+                    </fields>
+                </fadello>
+            </groups>
+        </shipping>
+        <carriers>
+            <groups>
+                <fadello translate="label" module="fadello">
+                    <label>Fadello - Same Day Delivery</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>103</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Method title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <logo_style translate="label">
+                            <label>Add Fadello logo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </logo_style>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <price_heading translate="label">
+                            <label>Pricing</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </price_heading>
+                        <price_note translate="label">
+                            <label><![CDATA[<p>Set the shipping price rules by using a from and to price.<br>For eg. a €5.00 shipping price for all orders under €100.00 needs to be configured with the start price of 0.00 and the end price of 100.00.</p><br/>]]></label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_note</frontend_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </price_note>
+                        <shipping_price>
+                            <label>Shipping Price</label>
+                            <frontend_model>fadello/adminhtml_config_form_field_shipping</frontend_model>
+                            <backend_model>fadello/adminhtml_system_config_backend_design_shipping</backend_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_price>
+                        <availability_heading translate="label">
+                            <label>Availability</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_heading>
+                        <availability_note translate="label">
+                            <label><![CDATA[<p>Set the availability and naming of the method based on time and day.<br>For eg. offer Sameday Delivery on weekdays before 13:00 and offer Nextday Evening Delivery between 13:00 and 23:59.<br>You can use different descriptions for these timespans, like: "Maandagavond levering 18:00-22:30".</p><br/>]]></label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_note</frontend_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_note>
+                        <availability>
+                            <label>Method Availability</label>
+                            <frontend_model>fadello/adminhtml_config_form_field_availability</frontend_model>
+                            <backend_model>fadello/adminhtml_system_config_backend_design_availability</backend_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability>
+                        <heading_sort translate="label">
+                            <label>Limitations</label>
+                            <frontend_model>fadello/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_sort>
+                        <weight translate="label">
+                            <label>Maximum weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>91</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Fill in the Maximum weight of a shipment with the same data format as used in the Products.</tooltip>
+                        </weight>
+                        <showmethod translate="label">
+                            <label>Show Method if Not Applicable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>93</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </showmethod>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>94</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificerrmsg>
+                    </fields>
+                </fadello>
+            </groups>
+        </carriers>
+    </sections>
+</config>

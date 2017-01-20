@@ -1,0 +1,11 @@
+app/code/community/Magmodules/Fadello            app/code/community/Magmodules/Fadello
+app/etc/modules/Magmodules_Fadello.xml            app/etc/modules/Magmodules_Fadello.xml
+app/locale/en_US/Magmodules_Fadello.csv            app/locale/en_US/Magmodules_Fadello.csv
+app/locale/nl_NL/Magmodules_Fadello.csv            app/locale/nl_NL/Magmodules_Fadello.csv
+app/design/frontend/base/default/layout/magmodules_fadello.xml            app/design/frontend/base/default/layout/magmodules_fadello.xml
+skin/adminhtml/default/default/images/fadello/close.png            skin/adminhtml/default/default/images/fadello/close.png
+skin/adminhtml/default/default/images/fadello/export.png            skin/adminhtml/default/default/images/fadello/export.png
+skin/adminhtml/default/default/images/fadello/pdf.png            skin/adminhtml/default/default/images/fadello/pdf.png
+skin/adminhtml/default/default/images/fadello/ship.png            skin/adminhtml/default/default/images/fadello/ship.png
+skin/frontend/base/default/magmodules/fadello/images/Fadello_logo3.png            skin/frontend/base/default/magmodules/fadello/images/Fadello_logo3.png
+skin/frontend/base/default/magmodules/fadello/style.css            skin/frontend/base/default/magmodules/fadello/style.css

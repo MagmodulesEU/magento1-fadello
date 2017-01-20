@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+  ~ /**
+  ~  * Magmodules.eu - http://www.magmodules.eu
+  ~  *
+  ~  * NOTICE OF LICENSE
+  ~  * This source file is subject to the Open Software License (OSL 3.0)
+  ~  * that is bundled with this package in the file LICENSE.txt.
+  ~  * It is also available through the world-wide-web at this URL:
+  ~  * http://opensource.org/licenses/osl-3.0.php
+  ~  * If you did not receive a copy of the license and are unable to
+  ~  * obtain it through the world-wide-web, please send an email
+  ~  * to info@magmodules.eu so we can send you a copy immediately.
+  ~  *
+  ~  * @category      Magmodules
+  ~  * @package       Magmodules_Fadello
+  ~  * @author        Magmodules <info@magmodules.eu>
+  ~  * @copyright     Copyright (c) 2017 (http://www.magmodules.eu)
+  ~  * @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  ~  */
+  -->
+
+<config>
+    <modules>
+        <Magmodules_Fadello>
+            <version>1.0.1</version>
+        </Magmodules_Fadello>
+    </modules>
+    <global>
+        <models>
+            <fadello>
+                <class>Magmodules_Fadello_Model</class>
+            </fadello>
+        </models>
+        <helpers>
+            <fadello>
+                <class>Magmodules_Fadello_Helper</class>
+            </fadello>
+        </helpers>
+        <blocks>
+            <fadello>
+                <class>Magmodules_Fadello_Block</class>
+            </fadello>
+        </blocks>
+        <resources>
+            <fadello_setup>
+                <setup>
+                    <module>Magmodules_Fadello</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </fadello_setup>
+        </resources>
+        <events>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <fadello>
+                        <class>fadello/observer</class>
+                        <method>core_block_abstract_to_html_after</method>
+                    </fadello>
+                </observers>
+            </core_block_abstract_to_html_after>
+        </events>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <magmodules_fadello>
+                    <files>
+                        <default>Magmodules_Fadello.csv</default>
+                    </files>
+                </magmodules_fadello>
+            </modules>
+        </translate>
+        <events>
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <fadello_core_block_abstract_prepare_layout_before>
+                        <class>fadello/observer</class>
+                        <method>addDataToOrderGrid</method>
+                    </fadello_core_block_abstract_prepare_layout_before>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+        </events>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <magmodules_fadello after="Mage_Adminhtml">Magmodules_Fadello_Adminhtml</magmodules_fadello>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <layout>
+            <updates>
+                <fadello>
+                    <file>magmodules_fadello.xml</file>
+                </fadello>
+            </updates>
+        </layout>
+    </frontend>
+    <default>
+        <shipping>
+            <fadello>
+                <cutoff_time>13:00</cutoff_time>
+                <cutoff_time>13:00-16:00</cutoff_time>
+                <cutoff_time>18:00-22:30</cutoff_time>
+                <pu_country>NL</pu_country>
+                <show_all_shipments>0</show_all_shipments>
+                <after_cutoff>0</after_cutoff>
+                <seperate_homenumber>0</seperate_homenumber>
+            </fadello>
+        </shipping>
+        <carriers>
+            <fadello>
+                <active>1</active>
+                <model>Magmodules_Fadello_Model_Carrier_ShippingMethod</model>
+                <name>Standaard gratis verzending</name>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <sallowspecific>1</sallowspecific>
+                <specificcountry>NL</specificcountry>
+                <sort_order>10</sort_order>
+            </fadello>
+        </carriers>
+    </default>
+</config>

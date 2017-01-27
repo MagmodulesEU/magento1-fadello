@@ -60,6 +60,16 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
             }
         }
 
+        foreach ($request->getAllItems() as $item) {
+            if ($item->getParentItem()) {
+                continue;
+            }
+            $stockQty = $item->getProduct()->getStockItem()->getQty();
+            if ($item->getQty() > $stockQty) {
+                return false;
+            }
+        }
+
         $prices = @unserialize($this->getConfigData('shipping_price'));
         $total = $request->getBaseSubtotalInclTax();
         $shippingCost = '0.00';

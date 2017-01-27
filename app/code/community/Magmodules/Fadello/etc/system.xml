@@ -397,6 +397,15 @@
                             <show_in_store>1</show_in_store>
                             <tooltip>Fill in the Maximum weight of a shipment with the same data format as used in the Products.</tooltip>
                         </weight>
+                        <stock_check translate="label">
+                            <label>In Stock Check</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>92</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Only show method when complete cart is in stock based on quantity &amp; stock status.</tooltip>
+                        </stock_check>
                         <showmethod translate="label">
                             <label>Show Method if Not Applicable</label>
                             <frontend_type>select</frontend_type>

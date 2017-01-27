@@ -1,4 +1,5 @@
 <?php
+
 /**
  * *
  *  * Magmodules.eu - http://www.magmodules.eu
@@ -19,10 +20,10 @@
  *  * @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *
  */
-
 class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Model_Carrier_Abstract
 {
 
+    const XML_PATH_MANAGE_STOCK = 'cataloginventory/item_options/manage_stock';
     protected $_code = 'fadello';
 
     /**
@@ -60,13 +61,35 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
             }
         }
 
-        foreach ($request->getAllItems() as $item) {
-            if ($item->getParentItem()) {
-                continue;
-            }
-            $stockQty = $item->getProduct()->getStockItem()->getQty();
-            if ($item->getQty() > $stockQty) {
-                return false;
+        if ($this->getConfigData('stock_check')) {
+
+            $configManageStock = (int) Mage::getStoreConfigFlag(self::XML_PATH_MANAGE_STOCK);
+
+            foreach ($request->getAllItems() as $item) {
+
+                if ($item->getProduct()->isVirtual() || $item->getParentItem()) {
+                    continue;
+                }
+
+                $stockItem = $item->getProduct()->getStockItem();
+
+                if ($stockItem->getUseConfigManageStock()) {
+                    if (!$configManageStock) {
+                        continue;
+                    }
+                } else {
+                    if (!$stockItem->getManageStock()) {
+                        continue;
+                    }
+                }
+
+                if (!$stockItem->getIsInStock()) {
+                    return false;
+                }
+
+                if ($item->getQty() > $stockItem->getQty()) {
+                    return false;
+                }
             }
         }
 

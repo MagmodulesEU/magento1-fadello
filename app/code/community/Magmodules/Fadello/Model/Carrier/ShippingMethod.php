@@ -1,29 +1,28 @@
 <?php
-
 /**
- * *
- *  * Magmodules.eu - http://www.magmodules.eu
- *  *
- *  * NOTICE OF LICENSE
- *  * This source file is subject to the Open Software License (OSL 3.0)
- *  * that is bundled with this package in the file LICENSE.txt.
- *  * It is also available through the world-wide-web at this URL:
- *  * http://opensource.org/licenses/osl-3.0.php
- *  * If you did not receive a copy of the license and are unable to
- *  * obtain it through the world-wide-web, please send an email
- *  * to info@magmodules.eu so we can send you a copy immediately.
- *  *
- *  * @category      Magmodules
- *  * @package       Magmodules_Fadello
- *  * @author        Magmodules <info@magmodules.eu>
- *  * @copyright     Copyright (c) 2017 (http://www.magmodules.eu)
- *  * @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * Magmodules.eu - http://www.magmodules.eu
  *
+ * NOTICE OF LICENSE
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to info@magmodules.eu so we can send you a copy immediately.
+ *
+ * @category      Magmodules
+ * @package       Magmodules_Fadello
+ * @author        Magmodules <info@magmodules.eu>
+ * @copyright     Copyright (c) 2017 (http://www.magmodules.eu)
+ * @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Model_Carrier_Abstract
 {
 
     const XML_PATH_MANAGE_STOCK = 'cataloginventory/item_options/manage_stock';
+
     protected $_code = 'fadello';
 
     /**
@@ -33,6 +32,8 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
+        $displayError = $this->getConfigFlag('showmethod');
+        $error = '';
 
         if (!$this->getConfigFlag('active')) {
             return false;
@@ -44,20 +45,32 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
 
         if ($maxWeight = Mage::getStoreConfig('carriers/fadello/weight')) {
             if ($request->getPackageWeight() > $maxWeight) {
-                return false;
+                if ($displayError) {
+                    $error++;
+                } else {
+                    return false;
+                }
             }
         }
 
         $active = Mage::helper('fadello')->isActive();
         if (!$active) {
-            return false;
+            if ($displayError) {
+                $error++;
+            } else {
+                return false;
+            }
         }
 
         $postcode = $request->getDestPostcode();
         if (!empty($postcode)) {
             $postcodeCheck = Mage::helper('fadello')->checkPostcode($request->getDestPostcode());
             if (!$postcodeCheck) {
-                return false;
+                if ($displayError) {
+                    $error++;
+                } else {
+                    return false;
+                }
             }
         }
 
@@ -67,8 +80,22 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
 
             foreach ($request->getAllItems() as $item) {
 
-                if ($item->getProduct()->isVirtual() || $item->getParentItem()) {
+                if ($item->getProduct()->isVirtual()) {
                     continue;
+                }
+
+                if ($item->getProduct()->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                    continue;
+                }
+
+                if ($item->getProduct()->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                    continue;
+                }
+
+                if ($item->getParentItem()) {
+                    $qty = $item->getParentItem()->getQty();
+                } else {
+                    $qty = $item->getQty();
                 }
 
                 $stockItem = $item->getProduct()->getStockItem();
@@ -84,13 +111,22 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
                 }
 
                 if (!$stockItem->getIsInStock()) {
-                    return false;
+                    if ($displayError) {
+                        $error++;
+                    } else {
+                        return false;
+                    }
                 }
 
-                if ($item->getQty() > $stockItem->getQty()) {
-                    return false;
+                if ($qty > $stockItem->getQty()) {
+                    if ($displayError) {
+                        $error++;
+                    } else {
+                        return false;
+                    }
                 }
             }
+
         }
 
         $prices = @unserialize($this->getConfigData('shipping_price'));
@@ -103,17 +139,30 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
-        $method = Mage::getModel('shipping/rate_result_method');
         $name = Mage::getStoreConfig('carriers/fadello/name');
+        $method = Mage::getModel('shipping/rate_result_method');
+        $result = Mage::getModel('shipping/rate_result');
 
-        $method->setCarrier('fadello');
-        $method->setCarrierTitle($name);
-        $method->setMethod('fadello');
-        $method->setMethodTitle($active['title']);
-        $method->setPrice($shippingCost);
-        $method->setCost('0.00');
-        $result->append($method);
+        if (empty($error)) {
+
+            $method->setCarrier('fadello');
+            $method->setCarrierTitle($name);
+            $method->setMethod('fadello');
+            $method->setMethodTitle($active['title']);
+            $method->setPrice($shippingCost);
+            $method->setCost('0.00');
+            $result->append($method);
+
+        } else {
+
+            $error = Mage::getModel('shipping/rate_result_error');
+            $method->setCarrier('fadello');
+            $method->setCarrierTitle($name);
+            $error->setErrorMessage($this->getConfigData('specificerrmsg'));
+            $result->append($error);
+
+        }
+
         return $result;
     }
 

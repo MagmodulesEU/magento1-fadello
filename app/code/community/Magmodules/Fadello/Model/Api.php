@@ -26,7 +26,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function createShipment($orderId)
+    public function createShipment($orderId, $colli)
     {
         $result = array();
         $order = Mage::getModel('sales/order')->load($orderId);
@@ -45,7 +45,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
             return $result;
         }
 
-        $post = json_encode($this->getPostOrderArray($config, $order));
+        $post = json_encode($this->getPostOrderArray($config, $order, $colli));
 
         $request = curl_init();
         $requestUrl = $config['url'] . 'postOrder?' . $config['url_params'];
@@ -69,6 +69,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
                     ->setFadelloDeliverId($deliverId)
                     ->setFadelloBarcode($barcode)
                     ->setFadelloStatus($status)
+                    ->setFadelloColli($colli)
                     ->save();
                 
                 $url = Mage::helper("adminhtml")->getUrl('*/fadello/getPdf', array('order_id' => $orderId));
@@ -285,12 +286,13 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param $config
-     * @param $order
+     * @param     $config
+     * @param     $order
+     * @param int $colli
      *
      * @return array
      */
-    public function getPostOrderArray($config, $order)
+    public function getPostOrderArray($config, $order, $colli = 1)
     {
         $post = array();
         $post['Name'] = $config['pu_name'];
@@ -311,17 +313,18 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
         $post['PUdate'] = $config['pu_date'];
         $post['PUtime'] = $config['pickup_time'];
         $post['PUnote'] = '';
-        $post['Deliver'][] = $this->getDeliveryData($config, $order);
+        $post['Deliver'][] = $this->getDeliveryData($config, $order, $colli);
         return $post;
     }
 
     /**
      * @param $config
      * @param $order
+     * @param $colli
      *
      * @return array
      */
-    public function getDeliveryData($config, $order)
+    public function getDeliveryData($config, $order, $colli)
     {
         $delivery = array();
         $shippingAddress = $order->getShippingAddress();
@@ -338,7 +341,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
         $delivery['DELemail'] = $order->getCustomerEmail();
         $delivery['DELdate'] = $config['del_date'];
         $delivery['DELtime'] = $config['del_time'];
-        $delivery['DELAaantalColli'] = 1;
+        $delivery['DELAaantalColli'] = $colli;
         $delivery['DELbarcodes'] = '';
         $delivery['CreateLabel'] = 'True';
         $delivery['DELnote'] = '';

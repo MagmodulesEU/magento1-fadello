@@ -26,9 +26,11 @@ class Magmodules_Fadello_Adminhtml_FadelloController extends Mage_Adminhtml_Cont
      */
     public function createShipmentAction()
     {
+
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId > 0) {
-            $result = Mage::getModel('fadello/api')->createShipment($orderId);
+            $colli = $this->getRequest()->getParam('colli');
+            $result = Mage::getModel('fadello/api')->createShipment($orderId, $colli);
             if (!empty($result['success_msg'])) {
                 Mage::getSingleton('core/session')->addSuccess($result['success_msg']);
             }

@@ -1,4 +1,5 @@
-/*
+<?php
+/**
  * Magmodules.eu - http://www.magmodules.eu
  *
  * NOTICE OF LICENSE
@@ -17,7 +18,18 @@
  * @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-function showColli(colli) 
+class Magmodules_Fadello_Block_Adminhtml_System_Config_Form_Field_Datetime
+    extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    document.getElementById("colli-"+colli).style.visibility = 'visible';
+
+    /**
+     * @param Varien_Data_Form_Element_Abstract $element
+     *
+     * @return mixed
+     */
+    public function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    {
+        return Mage::getModel('core/date')->date('Y-m-d H:i:s');
+    }
+
 }

@@ -99,14 +99,39 @@ class Magmodules_Fadello_Adminhtml_FadelloController extends Mage_Adminhtml_Cont
     public function getPdfAction()
     {
         $orderId = $this->getRequest()->getParam('order_id');
+        $download = $this->getRequest()->getParam('download', 0);
+
         if ($orderId > 0) {
             $result = Mage::getModel('fadello/api')->getPdf($orderId);
             if (!empty($result['label_url']) && !empty($result['file_name'])) {
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: attachment; filename=' . $result['file_name']);
-                header('Pragma: no-cache');
-                readfile($result['label_url']);
-                exit;
+                $label = $result['label_url'];
+                if (strpos($label, ',') !== false) {
+                    $colli = 1;
+                    $labels = explode(',', $label);
+                    $labelLinks = array();
+                    foreach ($labels as $label) {
+                        $url = $this->getUrl('*/fadello/getPdf', array('order_id' => $orderId, 'download' => $colli));
+                        $labelLinks[] = '<a href="' . $url . '">Label ' . $colli . '</a>';
+                        if ($download == $colli) {
+                            $filename = 'Fadello-' . $result['increment_id'] . '-L' . $colli . '.pdf';
+                            header('Content-Type: application/pdf');
+                            header('Content-Disposition: attachment; filename=' . $filename);
+                            header('Pragma: no-cache');
+                            readfile($label);
+                            exit;
+                        }
+
+                        $colli++;
+                    }
+
+                    Mage::getSingleton('core/session')->addSuccess('Download: ' . implode(', ', $labelLinks));
+                } else {
+                    header('Content-Type: application/pdf');
+                    header('Content-Disposition: attachment; filename=' . $result['file_name']);
+                    header('Pragma: no-cache');
+                    readfile($result['label_url']);
+                    exit;
+                }
             } else {
                 if (!empty($result['error_msg'])) {
                     Mage::getSingleton('core/session')->addError($result['error_msg']);

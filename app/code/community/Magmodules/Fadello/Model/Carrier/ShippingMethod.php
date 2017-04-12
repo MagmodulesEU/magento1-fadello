@@ -75,11 +75,9 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
         }
 
         if ($this->getConfigData('stock_check')) {
-
             $configManageStock = (int) Mage::getStoreConfigFlag(self::XML_PATH_MANAGE_STOCK);
 
             foreach ($request->getAllItems() as $item) {
-
                 if ($item->getProduct()->isVirtual()) {
                     continue;
                 }
@@ -126,7 +124,6 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
                     }
                 }
             }
-
         }
 
         $prices = @unserialize($this->getConfigData('shipping_price'));
@@ -144,7 +141,6 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
         $result = Mage::getModel('shipping/rate_result');
 
         if (empty($error)) {
-
             $method->setCarrier('fadello');
             $method->setCarrierTitle($name);
             $method->setMethod('fadello');
@@ -152,18 +148,59 @@ class Magmodules_Fadello_Model_Carrier_ShippingMethod extends Mage_Shipping_Mode
             $method->setPrice($shippingCost);
             $method->setCost('0.00');
             $result->append($method);
-
         } else {
-
             $error = Mage::getModel('shipping/rate_result_error');
             $method->setCarrier('fadello');
             $method->setCarrierTitle($name);
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
-
         }
 
         return $result;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTrackingAvailable()
+    {
+        return true;
+    }
+
+    /**
+     * @param $trackingNumber
+     *
+     * @return bool|mixed
+     */
+    public function getTrackingInfo($trackingNumber)
+    {
+        $trackingResult = $this->getTracking($trackingNumber);
+
+        if ($trackingResult instanceof Mage_Shipping_Model_Tracking_Result) {
+            $trackings = $trackingResult->getAllTrackings();
+            if (is_array($trackings) && count($trackings) > 0) {
+                return $trackings[0];
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $trackingNumber
+     *
+     * @return false|Mage_Core_Model_Abstract
+     */
+    public function getTracking($trackingNumber)
+    {
+        $trackingResult = Mage::getModel('shipping/tracking_result');
+        $trackingStatus = Mage::getModel('shipping/tracking_result_status');
+        $trackingStatus->setCarrier($this->_code);
+        $trackingStatus->setCarrierTitle($this->getConfigData('title'));
+        $trackingStatus->setTracking($trackingNumber);
+        $trackingResult->append($trackingStatus);
+
+        return $trackingResult;
     }
 
     /**

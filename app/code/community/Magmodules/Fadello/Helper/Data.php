@@ -31,7 +31,7 @@ class Magmodules_Fadello_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $api = array();
 
-        $afterCutoff = Mage::getStoreConfig('shipping/fadello/pu_name', $storeId);
+        $afterCutoff = Mage::getStoreConfig('shipping/fadello/after_cutoff', $storeId);
         $cutoff = str_replace(' ', '', Mage::getStoreConfig('shipping/fadello/cutoff_time', $storeId));
         $date = $this->getDate($afterCutoff, $cutoff);
 
@@ -46,6 +46,7 @@ class Magmodules_Fadello_Helper_Data extends Mage_Core_Helper_Abstract
         $api['url'] = 'https://api.fadello.nl/desktopmodules/fadello_retailAPI/API/v1/';
         $api['ship_type'] = 'DC';
         $api['label'] = 'PDF';
+
         if ($detailed) {
             $api['pu_name'] = Mage::getStoreConfig('shipping/fadello/pu_name', $storeId);
             $api['pu_street'] = Mage::getStoreConfig('shipping/fadello/pu_street', $storeId);
@@ -70,6 +71,27 @@ class Magmodules_Fadello_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param int $afterCutoff
+     * @param     $cutoff
+     *
+     * @return mixed
+     */
+    public function getDate($afterCutoff = 0, $cutoff)
+    {
+        $today = Mage::getModel('core/date')->date('d-m-Y');
+        $tomorrow = Mage::getModel('core/date')->date("d-m-Y", time() + 86400);
+        if ($afterCutoff) {
+            $time = Mage::getModel('core/date')->date('Hi');
+            $cutoff = (str_replace(':', '', $cutoff) + 100);
+            if ($time > $cutoff) {
+                return $tomorrow;
+            }
+        }
+
+        return $today;
+    }
+
+    /**
      * @return bool
      */
     public function isActive()
@@ -90,27 +112,6 @@ class Magmodules_Fadello_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return false;
-    }
-
-    /**
-     * @param int $afterCutoff
-     * @param     $cutoff
-     *
-     * @return mixed
-     */
-    public function getDate($afterCutoff = 0, $cutoff)
-    {
-        $today = Mage::getModel('core/date')->date('d-m-Y');
-        $tomorrow = Mage::getModel('core/date')->date("d-m-Y", time() + 86400);
-        if ($afterCutoff) {
-            $time = Mage::getModel('core/date')->date('Hi');
-            $cutoff = (str_replace(':', '', $cutoff) + 100);
-            if ($time > $cutoff) {
-                return $tomorrow;
-            }
-        }
-
-        return $today;
     }
 
     /**
@@ -153,6 +154,20 @@ class Magmodules_Fadello_Helper_Data extends Mage_Core_Helper_Abstract
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * @param $data
+     */
+    public function addToLog($data)
+    {
+        if (Mage::getStoreConfig('shipping/fadello/debug')) {
+            if (is_array($data)) {
+                Mage::log(json_encode($data), null, 'fadello.log', false);
+            } else {
+                Mage::log($data, null, 'fadello.log', false);
+            }
         }
     }
 

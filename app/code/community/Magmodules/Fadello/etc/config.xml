@@ -119,6 +119,7 @@
                 <show_all_shipments>0</show_all_shipments>
                 <after_cutoff>0</after_cutoff>
                 <seperate_homenumber>0</seperate_homenumber>
+                <debug>0</debug>
             </fadello>
         </shipping>
         <carriers>

@@ -21,7 +21,7 @@
 <config>
     <modules>
         <Magmodules_Fadello>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </Magmodules_Fadello>
     </modules>
     <global>
@@ -81,6 +81,13 @@
                 </observers>
             </core_block_abstract_prepare_layout_before>
         </events>
+        <layout>
+            <updates>
+                <magmodules_fadello>
+                    <file>magmodules_fadello.xml</file>
+                </magmodules_fadello>
+            </updates>
+        </layout>
     </adminhtml>
     <admin>
         <routers>
@@ -112,6 +119,7 @@
                 <show_all_shipments>0</show_all_shipments>
                 <after_cutoff>0</after_cutoff>
                 <seperate_homenumber>0</seperate_homenumber>
+                <debug>0</debug>
             </fadello>
         </shipping>
         <carriers>

@@ -29,7 +29,7 @@ class Magmodules_Fadello_Block_Adminhtml_Renderer_Shipment
      */
     public function render(Varien_Object $row)
     {
-        $html = '';
+        $html = '<div class="fadello-order-grid">';
 
         $orderId = $row->getEntityId();
         $status = $row->getFadelloStatus();
@@ -56,10 +56,15 @@ class Magmodules_Fadello_Block_Adminhtml_Renderer_Shipment
         $sMsg = $this->__('Ship This Order');
         $sImg = $this->getSkinUrl('images/fadello/export.png');
 
-        // Ship Order
-        $csUrl = $this->getUrl('*/fadello/createShipment', array('order_id' => $orderId));
-        $csMsg = $this->__('Create Shipmentr');
+        // Create Shipment
+        $csUrl = $this->getUrl('*/fadello/createShipment', array('order_id' => $orderId, 'colli' => 1));
+        $csMsg = $this->__('Create Shipment');
         $csImg = $this->getSkinUrl('images/fadello/ship.png');
+
+        // Create Multi Shipment
+        $csmUrl = $this->getUrl('*/fadello/createShipment', array('order_id' => $orderId));
+        $csmMsg = $this->__('Create Multi Colli');
+        $csmImg = $this->getSkinUrl('images/fadello/ship-mc.png');
 
         if (!empty($status)) {
             if ($status == 'created') {
@@ -77,7 +82,22 @@ class Magmodules_Fadello_Block_Adminhtml_Renderer_Shipment
             }
         } else {
             $html .= '<a href="' . $csUrl . '"><img title="' . $csMsg . '" src="' . $csImg . '"></a>';
+            $html .= '<form method="post" action="' . $csmUrl . '">
+                <input type="hidden" name="form_key" value="' . Mage::getSingleton('core/session')->getFormKey() .'">
+                <img title="' . $csmMsg . '" src="' . $csmImg . '" onclick="showColli(\'' . $orderId . '\')">
+                <select id="colli-' . $orderId . '" name="colli" onchange="this.form.submit()" class="colli-count">
+                    <option value=""></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                </form>';
         }
+
+        $html .= '</div>';
 
         return $html;
     }

@@ -26,7 +26,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function createShipment($orderId)
+    public function createShipment($orderId, $colli)
     {
         $result = array();
         $order = Mage::getModel('sales/order')->load($orderId);
@@ -45,7 +45,8 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
             return $result;
         }
 
-        $post = json_encode($this->getPostOrderArray($config, $order));
+        $post = json_encode($this->getPostOrderArray($config, $order, $colli));
+        Mage::helper('fadello')->addToLog($post);
 
         $request = curl_init();
         $requestUrl = $config['url'] . 'postOrder?' . $config['url_params'];
@@ -57,6 +58,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
         $content = curl_exec($request);
         $apiResult = json_decode($content, true);
+        Mage::helper('fadello')->addToLog($apiResult);
 
         if (!empty($apiResult['Status'])) {
             if ($apiResult['Status'] == 'OK') {
@@ -69,6 +71,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
                     ->setFadelloDeliverId($deliverId)
                     ->setFadelloBarcode($barcode)
                     ->setFadelloStatus($status)
+                    ->setFadelloColli($colli)
                     ->save();
                 
                 $url = Mage::helper("adminhtml")->getUrl('*/fadello/getPdf', array('order_id' => $orderId));
@@ -256,7 +259,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
         $shipments = $order->getShipmentsCollection();
         if (count($shipments)) {
             $result['status'] = 'Error';
-            $result['error_msg'] = $this->__('Order %s allready shipped', $order->getInrementId());
+            $result['error_msg'] = $this->__('Order %s allready shipped', $order->getIncrementId());
             return $result;
         }
 
@@ -280,22 +283,23 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
 
         $order->setData('state', "complete")->setStatus("complete")->setFadelloStatus('shipped')->save();
         $result['status'] = 'Success';
-        $result['success_msg'] = $this->__('Order %s shipped and completed', $order->getInrementId());
+        $result['success_msg'] = $this->__('Order %s shipped and completed', $order->getIncrementId());
         return $result;
     }
 
     /**
-     * @param $config
-     * @param $order
+     * @param     $config
+     * @param     $order
+     * @param int $colli
      *
      * @return array
      */
-    public function getPostOrderArray($config, $order)
+    public function getPostOrderArray($config, $order, $colli = 1)
     {
         $post = array();
         $post['Name'] = $config['pu_name'];
         $post['Phone'] = $config['pu_phone'];
-        $post['YourRef'] = $order->getIncrementId() . time();
+        $post['YourRef'] = $order->getIncrementId();
         $post['Note'] = '';
         $post['Email'] = $config['pu_email'];
         $post['ShipType'] = $config['ship_type'];
@@ -311,17 +315,18 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
         $post['PUdate'] = $config['pu_date'];
         $post['PUtime'] = $config['pickup_time'];
         $post['PUnote'] = '';
-        $post['Deliver'][] = $this->getDeliveryData($config, $order);
+        $post['Deliver'][] = $this->getDeliveryData($config, $order, $colli);
         return $post;
     }
 
     /**
      * @param $config
      * @param $order
+     * @param $colli
      *
      * @return array
      */
-    public function getDeliveryData($config, $order)
+    public function getDeliveryData($config, $order, $colli)
     {
         $delivery = array();
         $shippingAddress = $order->getShippingAddress();
@@ -338,7 +343,7 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
         $delivery['DELemail'] = $order->getCustomerEmail();
         $delivery['DELdate'] = $config['del_date'];
         $delivery['DELtime'] = $config['del_time'];
-        $delivery['DELAaantalColli'] = 1;
+        $delivery['DELAaantalColli'] = $colli;
         $delivery['DELbarcodes'] = '';
         $delivery['CreateLabel'] = 'True';
         $delivery['DELnote'] = '';

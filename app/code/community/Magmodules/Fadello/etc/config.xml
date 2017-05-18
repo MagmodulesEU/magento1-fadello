@@ -17,11 +17,10 @@
   ~ @copyright     Copyright (c) 2017 (http://www.magmodules.eu)
   ~ @license       http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
   -->
-
 <config>
     <modules>
         <Magmodules_Fadello>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
         </Magmodules_Fadello>
     </modules>
     <global>

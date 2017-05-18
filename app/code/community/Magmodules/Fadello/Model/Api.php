@@ -66,14 +66,14 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
                 $deliverId = $apiResult['TransDeliverID'][0]['Deliver1'];
                 $barcode = $apiResult['TransDeliverID'][0]['Barcode1'];
                 $status = 'created';
-                
+
                 $order->setFadelloTransId($transId)
                     ->setFadelloDeliverId($deliverId)
                     ->setFadelloBarcode($barcode)
                     ->setFadelloStatus($status)
                     ->setFadelloColli($colli)
                     ->save();
-                
+
                 $url = Mage::helper("adminhtml")->getUrl('*/fadello/getPdf', array('order_id' => $orderId));
                 $result['status'] = 'Success';
                 $result['success_msg'] = $this->__(
@@ -360,9 +360,14 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
     {
         if ($homeNoSep && isset($streetArr[1])) {
             $street = $streetArr[0];
-            $homeNoString = str_replace(array('-', ','), ' ', $streetArr[1]);
-            $homeNo = @reset(array_filter(preg_split("/\D+/", $homeNoString)));
-            $homeNoAdd = trim(str_replace($homeNo, '', $homeNoString));
+            if (isset($streetArr[2])) {
+                $homeNo = $streetArr[1];
+                $homeNoAdd = $streetArr[2];
+            } else {
+                $homeNoString = str_replace(array('-', ','), ' ', $streetArr[1]);
+                $homeNo = @reset(array_filter(preg_split("/\D+/", $homeNoString)));
+                $homeNoAdd = trim(str_replace($homeNo, '', $homeNoString));
+            }
             return array('street' => $street, 'homeno' => $homeNo, 'homeno_add' => $homeNoAdd);
         } else {
             $street = $streetArr[0];

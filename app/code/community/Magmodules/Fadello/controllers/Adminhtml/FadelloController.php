@@ -114,23 +114,32 @@ class Magmodules_Fadello_Adminhtml_FadelloController extends Mage_Adminhtml_Cont
                         $labelLinks[] = '<a href="' . $url . '">Label ' . $colli . '</a>';
                         if ($download == $colli) {
                             $filename = 'Fadello-' . $result['increment_id'] . '-L' . $colli . '.pdf';
-                            header('Content-Type: application/pdf');
-                            header('Content-Disposition: attachment; filename=' . $filename);
-                            header('Pragma: no-cache');
+                            $this->getResponse()
+                                ->setHttpResponseCode(200)
+                                ->setHeader('Pragma', 'public', true)
+                                ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+                                ->setHeader('Content-type', 'application/force-download')
+                                ->setHeader('Content-Length', filesize($label))
+                                ->setHeader('Content-Disposition', 'inline' . '; filename=' . $filename);
+                            $this->getResponse()->clearBody();
+                            $this->getResponse()->sendHeaders();
                             readfile($label);
-                            exit;
                         }
-
                         $colli++;
                     }
 
                     Mage::getSingleton('core/session')->addSuccess('Download: ' . implode(', ', $labelLinks));
                 } else {
-                    header('Content-Type: application/pdf');
-                    header('Content-Disposition: attachment; filename=' . $result['file_name']);
-                    header('Pragma: no-cache');
+                    $this->getResponse()
+                        ->setHttpResponseCode(200)
+                        ->setHeader('Pragma', 'public', true)
+                        ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+                        ->setHeader('Content-type', 'application/force-download')
+                        ->setHeader('Content-Length', filesize($result['label_url']))
+                        ->setHeader('Content-Disposition', 'inline' . '; filename=' . $result['file_name']);
+                    $this->getResponse()->clearBody();
+                    $this->getResponse()->sendHeaders();
                     readfile($result['label_url']);
-                    exit;
                 }
             } else {
                 if (!empty($result['error_msg'])) {

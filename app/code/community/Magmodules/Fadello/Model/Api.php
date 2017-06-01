@@ -270,10 +270,13 @@ class Magmodules_Fadello_Model_Api extends Mage_Core_Helper_Abstract
             $track = Mage::getModel('sales/order_shipment_track')->addData($arrTracking);
             $shipment->addTrack($track);
             $shipment->register();
-            $shipment->sendEmail(true);
-            $shipment->setEmailSent(true);
             $shipment->getOrder()->setIsInProcess(true);
             Mage::getModel('core/resource_transaction')->addObject($shipment)->addObject($shipment->getOrder())->save();
+
+            $shipment->sendEmail(true);
+            $shipment->setEmailSent(true);
+            $shipment->save();
+
             unset($shipment);
         } catch (Exception $e) {
             $result['status'] = 'Error';
